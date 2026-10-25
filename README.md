@@ -53,7 +53,7 @@ a built-in list if GitHub is ever unreachable.
 |---|---|
 | `collections.json` | Your lists — the only file you edit |
 | `worker/worker.js` | The Cloudflare Worker (already configured for this repo) |
-| `.github/workflows/deploy-worker.yml` | Optional: redeploys the Worker when its code changes (needs a `CF_API_TOKEN` secret) |
+*Optional:* a wrangler-deploy workflow can be added later by pasting `deploy-worker.yml` from your local zip via the GitHub web editor (it needs a `CF_API_TOKEN` secret).
 
 ## Notes
 
