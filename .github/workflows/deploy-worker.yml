@@ -1,0 +1,22 @@
+name: Deploy Worker (optional)
+
+# Only needed when the Worker CODE changes — list edits (collections.json)
+# deploy themselves: the Worker fetches them from this repo at request time.
+# Add a CF_API_TOKEN secret (Cloudflare -> My Profile -> API Tokens,
+# "Edit Cloudflare Workers" template) to enable this workflow.
+
+on:
+  push:
+    branches: [main]
+    paths: ["worker/**"]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          workingDirectory: worker
