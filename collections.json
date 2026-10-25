@@ -1,0 +1,31 @@
+{
+  "collections": [
+    {
+      "type": "movie",
+      "id": "my-favorites",
+      "name": "My Favorites",
+      "items": [
+        "tt0111161",
+        "tt0068646",
+        "tt0071562",
+        "tt0468569",
+        "tt0109830",
+        "tt1375666",
+        "tt0167260",
+        "tt0110912"
+      ]
+    },
+    {
+      "type": "series",
+      "id": "my-shows",
+      "name": "My Shows",
+      "items": [
+        "tt0903747",
+        "tt0306414",
+        "tt2861424",
+        "tt0944947",
+        "tt1520211"
+      ]
+    }
+  ]
+}
