@@ -1,0 +1,39 @@
+name: Validate collections
+
+on:
+  push:
+    paths: ["collections.json", "scripts/**", ".github/workflows/validate.yml"]
+  pull_request:
+    paths: ["collections.json"]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate collections.json
+        run: python scripts/validate_collections.py collections.json
+
+      - name: Check the addon endpoints respond
+        run: |
+          # Only runs when an addon URL is configured as a repo variable.
+          if [ -n "${{ vars.ADDON_URL }}" ]; then
+            echo "Checking ${{ vars.ADDON_URL }}/manifest.json"
+            curl -fsS --max-time 20 "${{ vars.ADDON_URL }}/manifest.json" -o /tmp/manifest.json
+            python3 - <<'PY'
+          import json
+          m = json.load(open("/tmp/manifest.json"))
+          assert m.get("resources") and "catalog" in m["resources"], "manifest missing catalog resource"
+          print(f"manifest OK: {len(m.get('catalogs', []))} catalogs")
+          for c in m.get("catalogs", []):
+              print(f"  - {c['type']}/{c['id']}: {c['name']}")
+          PY
+          else
+            echo "ADDON_URL variable not set - skipping endpoint check"
+          fi
